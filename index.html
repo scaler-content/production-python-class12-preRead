@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Class 12 Pre-Read</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #faf6ef; --card: #fffdf9; --text: #2e2820; --muted: #6e6455;
+    --accent: #b4532a; --accent-soft: #f8ebe0; --border: #e8dfd0;
+    --code-bg: #f4eee2; --code-text: #2e2820;
+    --ok: #2f7a47; --ok-soft: #e8f2e3; --warn: #94590a; --warn-soft: #fbeed0;
+    --bad: #b3261e; --bad-soft: #fbe6e1; --shadow: 0 1px 3px rgba(80,55,20,.10);
+  }
+  
+    * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 118px; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6; font-size: 17px;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 18px 80px; }
+  header.hero { padding: 38px 0 18px; }
+  .kicker { color: var(--accent); font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+  h1 { font-size: 34px; line-height: 1.2; margin: 6px 0 10px; }
+  .lead { color: var(--muted); font-size: 18px; margin: 0 0 12px; }
+  .pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .pill { background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 4px 12px; font-size: 14px; font-weight: 600; }
+
+  .topbar {
+    position: sticky; top: 0; z-index: 20; background: var(--bg);
+    border-bottom: 1px solid var(--border); padding: 8px 0 8px;
+  }
+  .topbar .wrap { padding-bottom: 0; }
+  .progress { height: 8px; background: var(--border); border-radius: 99px; overflow: hidden; margin-bottom: 8px; }
+  .progress > div { height: 100%; width: 0; background: var(--ok); transition: width .3s ease; }
+  nav { display: flex; gap: 6px; flex-wrap: wrap; font-size: 14px; }
+  nav a {
+    text-decoration: none; color: var(--muted); padding: 3px 10px; border-radius: 99px;
+    border: 1px solid var(--border); background: var(--card);
+  }
+  nav a:hover { color: var(--accent); border-color: var(--accent); }
+  nav a.done { color: var(--ok); border-color: var(--ok); }
+  .pct { font-size: 13px; color: var(--muted); margin: 0 0 6px; }
+
+  section.card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 22px 24px; margin: 22px 0; box-shadow: var(--shadow);
+  }
+  section.card h2 { font-size: 25px; margin: 0 0 4px; line-height: 1.25; }
+  .num { color: var(--accent); }
+  h3 { font-size: 19px; margin: 26px 0 6px; }
+  p { margin: 8px 0; }
+  ul, ol { padding-left: 22px; margin: 8px 0; }
+  li { margin: 4px 0; }
+  .muted { color: var(--muted); }
+  .small { font-size: 14px; }
+
+  .callout { border-radius: 10px; padding: 12px 16px; margin: 14px 0; border-left: 5px solid; }
+  .callout.tip { background: var(--accent-soft); border-color: var(--accent); }
+  .callout.warn { background: var(--warn-soft); border-color: var(--warn); }
+  .callout.ok { background: var(--ok-soft); border-color: var(--ok); }
+  .callout strong.t { display: block; margin-bottom: 2px; }
+
+  code, pre, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+  code { background: var(--code-bg); padding: 1px 6px; border-radius: 5px; font-size: .92em; }
+  .codeblock { position: relative; margin: 12px 0; }
+  .codeblock pre {
+    margin: 0; background: var(--code-bg); color: var(--code-text); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 16px; overflow-x: auto; font-size: 15px; line-height: 1.5;
+  }
+  .codeblock .label { font-size: 13px; color: var(--muted); margin-bottom: 4px; font-weight: 600; }
+  .copy {
+    position: absolute; top: 8px; right: 8px; font-size: 12px; padding: 3px 9px; border-radius: 6px;
+    border: 1px solid var(--border); background: var(--card); color: var(--muted); cursor: pointer;
+  }
+  .copy:hover { color: var(--accent); border-color: var(--accent); }
+  .placeholder {
+    background: var(--warn-soft); color: var(--warn); border: 1px dashed var(--warn);
+    padding: 0 6px; border-radius: 5px; font-weight: 600; white-space: nowrap;
+  }
+
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 15px; }
+  th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: var(--accent-soft); color: var(--accent); }
+  .tablewrap { overflow-x: auto; }
+
+  /* tabs */
+  .tabs { margin: 14px 0; }
+  .tablist { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  .tablist button {
+    font: inherit; font-size: 15px; font-weight: 600; padding: 7px 16px; border-radius: 99px; cursor: pointer;
+    border: 1px solid var(--border); background: var(--card); color: var(--muted);
+  }
+  .tablist button[aria-selected="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+  
+  .tabpanel { display: none; }
+  .tabpanel.active { display: block; }
+  .steps { counter-reset: s; list-style: none; padding-left: 0; }
+  .steps li { counter-increment: s; position: relative; padding-left: 38px; margin: 10px 0; }
+  .steps li::before {
+    content: counter(s); position: absolute; left: 0; top: 0; width: 26px; height: 26px; border-radius: 50%;
+    background: var(--accent); color: #fff; font-weight: 700; font-size: 14px; display: grid; place-items: center;
+  }
+  
+
+  /* diagrams */
+  .flow { display: flex; flex-wrap: wrap; gap: 8px; align-items: stretch; margin: 14px 0; }
+  .flow .box {
+    flex: 1 1 150px; border: 2px solid var(--accent); border-radius: 12px; padding: 10px 12px; background: var(--accent-soft);
+  }
+  .flow .box b { display: block; color: var(--accent); font-size: 18px; }
+  .flow .arrow { align-self: center; font-size: 22px; color: var(--accent); }
+
+  .anatomy { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; font-family: ui-monospace, Menlo, Consolas, monospace; }
+  .anatomy span { padding: 6px 10px; border-radius: 8px; font-size: 15px; }
+  .a-prompt { background: #3b4a6b; color: #fff; }
+  .a-cmd { background: #1f7a3a; color: #fff; }
+  .a-out { background: var(--code-bg); border: 1px solid var(--border); color: var(--code-text); }
+  .legend { font-size: 14px; color: var(--muted); }
+
+  .tasks { list-style: none; padding: 0; margin: 10px 0; }
+  .tasks li { padding: 6px 10px; border: 1px solid var(--border); border-radius: 8px; margin: 6px 0; display: flex; gap: 10px; align-items: center; background: var(--card); }
+  .tasks li .ck { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border); display: grid; place-items: center; font-size: 13px; flex: none; }
+  .tasks li.done { background: var(--ok-soft); border-color: var(--ok); }
+  .tasks li.done .ck { background: var(--ok); border-color: var(--ok); color: #fff; }
+  .btn {
+    font: inherit; font-size: 15px; font-weight: 600; padding: 8px 16px; border-radius: 10px; cursor: pointer;
+    border: 1px solid var(--accent); background: var(--accent); color: #fff;
+  }
+  
+  .btn.ghost { background: transparent; color: var(--accent); }
+  .btnrow { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0; }
+  .hint { min-height: 24px; font-size: 15px; margin: 6px 0; }
+  .hint.good { color: var(--ok); } .hint.bad { color: var(--bad); }
+
+  /* chips / cards */
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0; }
+  .chip {
+    font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 16px; padding: 7px 14px; border-radius: 10px; cursor: pointer;
+    border: 1px solid var(--border); background: var(--card); color: var(--text);
+  }
+  .chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+  .readout { background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; min-height: 64px; }
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 680px) { .twocol { grid-template-columns: 1fr; } }
+  .panel { border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; background: var(--card); }
+  .panel h4 { margin: 0 0 6px; font-size: 15px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+  .cardgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  @media (max-width: 680px) { .cardgrid { grid-template-columns: 1fr; } }
+
+  /* quiz */
+  .quiz .q { border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; margin: 12px 0; background: var(--card); }
+  .quiz .q p.qt { margin: 0 0 8px; font-weight: 600; }
+  .quiz .opt {
+    display: block; width: 100%; text-align: left; font: inherit; font-size: 16px; padding: 8px 12px; margin: 6px 0; cursor: pointer;
+    border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text);
+  }
+  .quiz .opt:hover:not(:disabled) { border-color: var(--accent); }
+  .quiz .opt.right { background: var(--ok-soft); border-color: var(--ok); }
+  .quiz .opt.wrong { background: var(--bad-soft); border-color: var(--bad); }
+  .quiz .fb { font-size: 15px; margin-top: 6px; }
+  .score { font-size: 20px; font-weight: 700; margin: 10px 0; }
+
+  .donebar { display: flex; align-items: center; gap: 12px; margin-top: 18px; padding-top: 14px; border-top: 1px dashed var(--border); flex-wrap: wrap; }
+  .donebtn {
+    font: inherit; font-size: 15px; font-weight: 600; padding: 7px 14px; border-radius: 99px; cursor: pointer;
+    border: 1px solid var(--ok); color: var(--ok); background: transparent;
+  }
+  .donebtn[aria-pressed="true"] { background: var(--ok); color: #fff; }
+  
+  footer { text-align: center; color: var(--muted); font-size: 14px; margin-top: 30px; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+  /* ---- additions for Class 2 ---- */
+  /* sorter */
+  .sorter { margin: 14px 0; }
+  .sorter .pool { display: flex; gap: 8px; flex-wrap: wrap; min-height: 44px; padding: 10px; border: 1px dashed var(--border); border-radius: 10px; background: var(--card); }
+  .sorter .pool .chip { font-size: 15px; }
+  .sorter .pool .empty { color: var(--ok); font-weight: 600; }
+  .sorter .bins { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
+  .sorter .bins.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (max-width: 680px) { .sorter .bins, .sorter .bins.two { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 420px) { .sorter .bins, .sorter .bins.two { grid-template-columns: 1fr; } }
+  .sorter .bin {
+    font: inherit; text-align: left; cursor: pointer; border: 2px solid var(--border); border-radius: 12px; padding: 10px 12px;
+    background: var(--card); color: var(--text); min-height: 84px;
+  }
+  .sorter .bin:hover { border-color: var(--accent); }
+  .sorter .bin b { display: block; color: var(--accent); font-size: 16px; margin-bottom: 2px; }
+  .sorter .bin .why { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+  .sorter .bin .placed { display: flex; flex-wrap: wrap; gap: 4px; }
+  .sorter .bin .placed span { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; background: var(--ok-soft); border: 1px solid var(--ok); color: var(--ok); border-radius: 6px; padding: 0 6px; }
+  .sorter .bin.flash { border-color: var(--bad); background: var(--bad-soft); }
+  .chip.sel { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+
+  /* folder explorer */
+  .explorer { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 12px; }
+  @media (max-width: 680px) { .explorer { grid-template-columns: 1fr; } }
+  .explorer .tree button {
+    display: block; width: 100%; text-align: left; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 15px;
+    background: transparent; border: none; padding: 5px 8px; border-radius: 8px; cursor: pointer; color: var(--text);
+  }
+  .explorer .tree button.f { color: var(--accent); font-weight: 600; }
+  .explorer .tree button[aria-pressed="true"] { background: var(--accent-soft); }
+  .explorer .tree .ind { padding-left: 22px; }
+  .explorer .tree .dim { color: var(--muted); font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 14px; padding: 2px 8px 2px 30px; }
+
+  /* layers */
+  .layers .l { border-radius: 10px; padding: 10px 14px; margin: 6px 0; border: 1px solid var(--border); }
+  .layers .l1 { background: var(--ok-soft); border-color: var(--ok); }
+  .layers .l2 { background: var(--warn-soft); border-color: var(--warn); }
+  .layers .l3 { background: var(--accent-soft); border-color: var(--accent); }
+  .layers b { display: block; }
+
+  .tasks li { align-items: flex-start; }
+  .tasks li .tx { min-width: 0; overflow-wrap: anywhere; }
+  .tasks li .tx code { white-space: normal; }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="wrap">
+    <div class="progress" aria-hidden="true"><div id="bar"></div></div>
+    <p class="pct" id="pct">Progress: 0 of 8 sections marked done</p>
+    <nav id="nav" aria-label="Sections">
+      <a href="#s1" data-s="s1">1 Welcome</a>
+      <a href="#s2" data-s="s2">2 Big idea</a>
+      <a href="#s3" data-s="s3">3 Tools</a>
+      <a href="#s4" data-s="s4">4 Project</a>
+      <a href="#s5" data-s="s5">5 Words</a>
+      <a href="#s6" data-s="s6">6 Stages</a>
+      <a href="#s7" data-s="s7">7 Trust it</a>
+      <a href="#s8" data-s="s8">8 Check yourself</a>
+    </nav>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="kicker">FDE Module 2 &middot; Pre-read for Class 12</div>
+  <h1>Pipeline Day: One Batch, From Files to a Published Result</h1>
+  <p class="lead">Class 11 gave you a Spark slice that agrees with the Python judge. Class 12 turns that slice into a <strong>pipeline you can run on a new batch and trust</strong>. You will write down the contract of a batch before any code runs, build the job in six stages, catch the bugs that only appear when files are joined (duplicate ids, a join that multiplies rows, ties at the cap), write the result so that a half-finished run can never be read, and prove that running the same batch twice gives the same hashes. Then a bounded AI step runs <em>after</em> Spark, and a held-out check decides whether its suggestions are published. <strong>No new installs this time</strong>: the Java and Spark you set up for Class 11 are enough. The model in this class is a <strong>simulated stand-in</strong>, so nothing is called and nothing is paid. Read this before class, then arrive with your project checked.</p>
+  <div class="pills">
+    <span class="pill">About 40 minutes</span>
+    <span class="pill">No new installs</span>
+    <span class="pill">Quick games and a short quiz</span>
+  </div>
+</header>
+
+<!-- ================= 1 WELCOME ================= -->
+<section class="card" id="s1">
+  <h2><span class="num">1.</span> Welcome</h2>
+  <p>In Class 11 you proved that Spark and Python agree on one set of files. The Operations lead now writes: <em>&ldquo;A new batch arrives every morning. Can you run it end to end, tell me in one screen whether I can trust it, and be able to say what happened if it goes wrong?&rdquo;</em> Today you answer with a pipeline, and with numbers from real runs. The rule of the class is: <strong>declare the contract first, check every stage, publish only what passed, and make a rerun safe</strong>.</p>
+  <p>By the end of class you will have:</p>
+  <div class="cardgrid">
+    <div class="panel">
+      <h4>You will learn to</h4>
+      <ul>
+        <li>Write a batch <strong>contract</strong>: sources, schemas, <strong>grain</strong>, identifiers, thresholds, a <strong>batch id</strong> and an <strong>attempt id</strong></li>
+        <li>Build a job in six stages: <strong>read, validate, transform, join, quality check, write</strong></li>
+        <li>Catch a <strong>duplicate id across files</strong>, a <strong>join that multiplies rows</strong> and a <strong>tie at the cap</strong></li>
+        <li>Tell a <strong>block</strong> check from a <strong>warn</strong> check, and see a batch <strong>halt</strong> with evidence</li>
+        <li>Write output with a <strong>staged swap</strong> and a <strong>manifest written last</strong>, then read it back without Spark</li>
+        <li>Prove a rerun is <strong>idempotent</strong>, run a bounded AI step after Spark, and decide with a <strong>publish gate</strong></li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h4>You do not need to</h4>
+      <ul>
+        <li>Install anything new. Java, Spark and the packages are the same as in Class 11</li>
+        <li>Have an API key. The model is a <strong>simulated</strong> stand-in with no network and no cost</li>
+        <li>Know Spark windows or joins already. Each one is explained when it first appears</li>
+        <li>Have a cluster. Everything runs in local mode on your computer</li>
+        <li>Pay for anything</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout tip"><strong class="t">How to use this page</strong>
+    Go in order. Section 3 is the one to finish <strong>before</strong> class: it checks your Class 11 project and adds the starter pack. Click the small interactive boxes, since they help you remember. Press <em>Mark as done</em> at the end of each section. If a step fails, write down what you saw and tell your instructor. Please do not spend more than 20 minutes stuck on any one thing.
+  </div>
+  <div class="donebar"><button class="donebtn" data-done="s1" aria-pressed="false">Mark as done</button></div>
+</section>
+
+<!-- ================= 2 BIG IDEA ================= -->
+<section class="card" id="s2">
+  <h2><span class="num">2.</span> The big idea: write the contract first</h2>
+  <p>Think of a goods-inward bay. Before a lorry is unloaded, the bay has a written list: what must be on it, how it must be packed, how much damage is acceptable, and where each crate goes. A lorry that breaks the list is turned away, with a note saying why. A pipeline needs the same list <strong>before</strong> the code runs, because after the run it is too easy to pick thresholds that make the result look good.</p>
+  <p>The class works through four findings, each one backed by a number from a real run. Click each one.</p>
+  <div class="chips" id="hideChips">
+    <button class="chip" data-i="0" aria-pressed="false">A silent duplicate</button>
+    <button class="chip" data-i="1" aria-pressed="false">A join that multiplies</button>
+    <button class="chip" data-i="2" aria-pressed="false">A tie at the cap</button>
+    <button class="chip" data-i="3" aria-pressed="false">A half-written run</button>
+  </div>
+  <div class="readout" id="hideOut" aria-live="polite">Click an item above.</div>
+
+  <h3>The three promises of Class 12</h3>
+  <div class="flow" aria-label="Three promises">
+    <div class="box"><b>1. Declare it</b>Sources, grain, identifiers, thresholds and ids are written down before the run, and printed after it</div><div class="arrow">&rarr;</div>
+    <div class="box"><b>2. Check it</b>Every stage reconciles its rows. A block check halts the batch, and a halt leaves evidence and no model call</div><div class="arrow">&rarr;</div>
+    <div class="box"><b>3. Publish only what passed</b>A rerun gives the same hashes, and a held-out check decides whether the AI suggestions go out</div>
+  </div>
+
+  <div class="callout warn"><strong class="t">What we will not do in Class 12</strong>
+    No cluster, no streaming and no scheduler: the pipeline runs when you run it. <strong>The model is simulated</strong>: <code>batch_model.py</code> returns canned answers, with no network, no key and no real cost, and its latency and token counts are stand-ins. The prices are an assumption in a dated file (as of 2026-11-04). The Class 5 reports and their three fingerprints stay exactly as they were.
+  </div>
+  <div class="donebar"><button class="donebtn" data-done="s2" aria-pressed="false">Mark as done</button></div>
+</section>
+
+<!-- ================= 3 TOOLS ================= -->
+<section class="card" id="s3">
+  <h2><span class="num">3.</span> Check your tools</h2>
+  <p>This is the section to finish before class. There is nothing new to install, so it should take about 15 minutes. The pinned packages in <code>requirements.txt</code> are the same as in Class 11.</p>
+  <div class="tablewrap">
+  <table>
+    <tr><th>What</th><th>Why it matters</th><th>Ready when</th></tr>
+    <tr><td><strong>Python</strong></td><td>Runs the program. The project requires Python 3.11 or newer, and its type check is set to 3.12</td><td><span class="placeholder">3.11, 3.12 or 3.13</span></td></tr>
+    <tr><td><strong>Java 21 and pyspark</strong></td><td>Already installed in Class 11. Spark cannot start without them</td><td>The Spark check below prints <code>5</code></td></tr>
+    <tr><td><strong>Your Class 11 project</strong></td><td>Class 12 builds on it, one folder at a time</td><td>It runs, <code>pytest</code> shows <code>357 passed, 1 xfailed</code>, and <code>mypy</code> shows <code>Success: no issues found in 95 source files</code></td></tr>
+    <tr><td><strong>Starter Files for Class 12</strong></td><td>A batch generator, the held-out set, the fixtures for the new batch, the config files and a model stand-in</td><td>Downloaded from the link your instructor shares, and unzipped over your project. Then <code>pytest</code> shows <code>359 passed, 1 xfailed</code> and <code>mypy</code> shows <code>100 source files</code></td></tr>
+    <tr><td><strong>Git</strong></td><td>You keep working in your repository, as in Class 11</td><td><code>git --version</code> prints a version</td></tr>
+  </table>
+  </div>
+
+  <h3>3.1 Check Python and Git</h3>
+  <p>Open a terminal and run the command for your system. The project works on Python 3.11 and newer. On Python 3.12 the full check (pytest, mypy and ruff) was run clean on a Mac, so 3.12 is a good choice if you are installing fresh.</p>
+  <div class="tabs" data-tabs="pyver">
+    <div class="tablist" role="tablist" aria-label="Operating system">
+      <button role="tab" aria-selected="true" data-tab="win">Windows</button>
+      <button role="tab" aria-selected="false" data-tab="mac">Mac and Linux</button>
+    </div>
+    <div class="tabpanel active" data-panel="win">
+      <div class="codeblock"><div class="label">Windows PowerShell</div><button class="copy">Copy</button><pre>py --version
+git --version</pre></div>
+      <p class="small muted">Expect something like <code>Python 3.12.4</code> and <code>git version 2.45.0</code>.</p>
+    </div>
+    <div class="tabpanel" data-panel="mac">
+      <div class="codeblock"><div class="label">macOS or Linux</div><button class="copy">Copy</button><pre>python3 --version
+git --version</pre></div>
+      <p class="small muted">Expect something like <code>Python 3.12.4</code> and <code>git version 2.45.0</code>.</p>
+    </div>
+  </div>
+
+  <h3>3.2 Check your Class 11 project, add the starter pack, and test Spark</h3>
+  <p>Open your project folder in VS Code and make sure your virtual environment is active. On Windows use <code>py</code> instead of <code>python3</code> if <code>python</code> is not found. Paste one command at a time, without any comment after it.</p>
+  <div class="codeblock"><div class="label">From the project root, with the environment active: your Class 11 project</div><button class="copy">Copy</button><pre>python -m pytest -q
+python -m mypy</pre></div>
+  <p class="small muted">Expect a last line that says <code>357 passed, 1 xfailed</code>, then <code>Success: no issues found in 95 source files</code>. The pytest run takes about a minute.</p>
+  <p>Now unzip the starter pack over your project. It adds files and makes small changes to <code>pyproject.toml</code>, <code>legacy.py</code>, <code>operator_view.py</code>, the Streamlit app and two docs, so nothing you wrote is lost. The pinned packages are the same as in Class 11.</p>
+  <div class="codeblock"><div class="label">After copying the Class 12 starter pack in</div><button class="copy">Copy</button><pre>python -m pip install -r requirements.txt
+python -m pytest -q
+python -m mypy</pre></div>
+  <p class="small muted">Expect <code>359 passed, 1 xfailed</code> (the starter adds two tests), then <code>Success: no issues found in 100 source files</code>.</p>
+  <p>Last, start Spark once, as in Class 11. The first start takes 5 to 10 seconds, because a Java process has to start.</p>
+  <div class="codeblock"><div class="label">The Spark check</div><button class="copy">Copy</button><pre>python -c "from meridian_workbench.spark.session import build_session; s = build_session('check'); print(s.range(5).count()); s.stop()"</pre></div>
+  <p class="small muted">Expect a number <code>5</code> on its own line. A few <code>WARN</code> lines and a progress bar are normal: they come from Spark and can be ignored.</p>
+
+  <div class="callout tip"><strong class="t">A note about your own numbers</strong>
+    The counts in class (rows accepted, rows quarantined, candidates written, batch id) must match yours, because the new batch is generated from a fixed pattern. The seconds will not, and a Spark run takes roughly 25 to 30 seconds on a two-core machine. The model is a <strong>simulated</strong> stand-in, and the prices are an <strong>assumption</strong> in a dated file.
+  </div>
+
+  <h3>If something goes wrong</h3>
+  <div class="tablewrap">
+  <table>
+    <tr><th>What you see</th><th>Likely cause and fix</th></tr>
+    <tr><td><code>JAVA_GATEWAY_EXITED</code></td><td>Spark could not start Java. Run <code>java -version</code>. If it fails or shows a version below 17, fix Java as you did in Class 11, open a new terminal, and try again. On a Mac, check <code>JAVA_HOME</code> and <code>SPARK_LOCAL_IP</code>.</td></tr>
+    <tr><td><code>ModuleNotFoundError: No module named 'pyspark'</code></td><td>The packages are not installed in this environment. Activate your virtual environment and run <code>python -m pip install -r requirements.txt</code>.</td></tr>
+    <tr><td>The tests do not show <code>357 passed, 1 xfailed</code> before the starter</td><td>Do not fix it alone. Tell your instructor which test failed, and bring the last line of the error.</td></tr>
+    <tr><td>Another project with the same package name is installed (an old <code>-e .</code> install), and your changes seem to be ignored</td><td>Run commands with <code>PYTHONPATH=src</code> in front on Mac and Linux, for example <code>PYTHONPATH=src python -m pytest -q</code>, or reinstall the project from this folder.</td></tr>
+    <tr><td>Fingerprints: DIFFERENT from before</td><td>Stop. A trusted report changed when it should not have. Class 12 adds a pipeline next to the Python code and never changes the three Class 5 sample-batch fingerprints, so find which file changed before going further.</td></tr>
+  </table>
+  </div>
+  <div class="donebar"><button class="donebtn" data-done="s3" aria-pressed="false">Mark as done</button></div>
+</section>
+
+<!-- ================= 4 PROJECT ================= -->
+<section class="card" id="s4">
+  <h2><span class="num">4.</span> Where the new pieces go</h2>
+  <p>Class 12 adds the job, its config, the joins, the quality checks and the idempotence check to the <code>spark/</code> package, and next to it the enrich step, the publish gate and a one-command runner. Two new test files and a runbook come with them. Click a folder to see what changes.</p>
+  <div class="explorer">
+    <div class="panel tree" id="treeBox">
+      <button class="f" data-d="root" aria-pressed="true">meridian-workbench/</button>
+      <div class="ind">
+        <button class="f" data-d="src" aria-pressed="false">src/meridian_workbench/</button>
+        <button class="f" data-d="spark" aria-pressed="false">&nbsp;&nbsp;spark/</button>
+        <button class="f" data-d="tests" aria-pressed="false">tests/</button>
+        <button class="f" data-d="data" aria-pressed="false">config/, fixtures/ and golden/</button>
+        <button class="f" data-d="docs" aria-pressed="false">docs/ and app/</button>
+        <button data-d="files" aria-pressed="false">pyproject.toml, README.md &hellip;</button>
+      </div>
+    </div>
+    <div class="panel"><h4 id="treeTitle">The whole project</h4><div id="treeText"></div></div>
+  </div>
+  <div class="callout tip"><strong class="t">Picture it</strong>
+    Class 11 built a sorting hall. Class 12 adds the paperwork around it: a written intake list, a clerk who stops the line when too many crates are damaged, a sealed pallet that is only moved to the shelf when it is complete, and a supervisor who checks a sample before the result goes to the customer.
+  </div>
+  <div class="donebar"><button class="donebtn" data-done="s4" aria-pressed="false">Mark as done</button></div>
+</section>
+
+<!-- ================= 5 WORDS ================= -->
+<section class="card" id="s5">
+  <h2><span class="num">5.</span> The words of a pipeline</h2>
+  <p>A pipeline is a program that runs the same steps on a new set of files every day, and has to be explainable afterwards. Six words cover the contract.</p>
+  <div class="tablewrap">
+  <table>
+    <tr><th>Word</th><th>In plain words</th><th>In the Workbench</th></tr>
+    <tr><td><strong>Grain</strong></td><td>What one row of a table means. If you cannot say it, you cannot check it</td><td>The curated table has <strong>one row per <code>case_id</code></strong>, across every source</td></tr>
+    <tr><td><strong>Batch id</strong></td><td>A name made from the inputs. Same files and date, same id</td><td><code>B-c8f5e7c7c884</code>, a hash of the three input files, the history file and the date</td></tr>
+    <tr><td><strong>Attempt id</strong></td><td>A count of the times this batch has been run, kept in a file</td><td><code>A-001</code>, then <code>A-002</code>, counted from <code>attempts.jsonl</code></td></tr>
+    <tr><td><strong>Rules version</strong></td><td>A fingerprint of the rules and limits. It changes when a rule changes</td><td><code>R-1335fcfd</code>, written into every manifest</td></tr>
+    <tr><td><strong>Quarantine</strong></td><td>Rows that failed a rule, kept with a source, a row number, a category and a reason</td><td>Written to the <code>quarantine</code> table. Nothing is dropped without a record</td></tr>
+    <tr><td><strong>Manifest</strong></td><td>The list of what a run wrote, with rows and a content hash for each table. It is written last</td><td>A run folder with no <code>manifest.json</code> is an unfinished run, and is never read</td></tr>
+  </table>
+  </div>
+  <p>Click an item, then click the bin where it belongs.</p>
+  <div class="sorter" id="sortKinds"></div>
+  <div class="callout tip"><strong class="t">Declared, observed, derived</strong>
+    A number in the pipeline is one of three things. A <strong>declared</strong> number is a threshold you wrote before the run (at most 5% quarantined). An <strong>observed</strong> number is counted from the data (12 of 402 rows). A <strong>derived</strong> id is computed from the inputs (the batch id). A check compares an observed number with a declared one, and the report shows both.
+  </div>
+  <div class="donebar"><button class="donebtn" data-done="s5" aria-pressed="false">Mark as done</button></div>
+</section>
+
+<!-- ================= 6 STAGES ================= -->
+<section class="card" id="s6">
+  <h2><span class="num">6.</span> Six stages, and the bugs between them</h2>
+  <p>The job runs six stages in a fixed order. After each one the class prints how many rows went in and how many came out, because a stage that quietly loses or multiplies rows is the most common pipeline bug.</p>
+  <div class="flow" aria-label="Six stages">
+    <div class="box"><b>1. Read</b>Written schemas, row numbers</div><div class="arrow">&rarr;</div>
+    <div class="box"><b>2. Validate</b>Accept or quarantine, with a reason</div><div class="arrow">&rarr;</div>
+    <div class="box"><b>3. Transform</b>Window, ties, flags</div><div class="arrow">&rarr;</div>
+    <div class="box"><b>4. Join</b>Aggregate first, then left join</div><div class="arrow">&rarr;</div>
+    <div class="box"><b>5. Check</b>Block, warn, info</div><div class="arrow">&rarr;</div>
+    <div class="box"><b>6. Write</b>Staged swap, manifest last</div>
+  </div>
+  <h3>Which stage does it belong to?</h3>
+  <p>Click an item, then click the stage where it happens.</p>
+  <div class="sorter" id="sortWrap"></div>
+
+  <h3>Five things to notice</h3>
+  <p>Click one to see what the class showed and what to do about it.</p>
+  <div class="chips" id="closeChips">
+    <button class="chip" data-i="0" aria-pressed="false">Three ids in both files</button>
+    <button class="chip" data-i="1" aria-pressed="false">428 rows for 390 cases</button>
+    <button class="chip" data-i="2" aria-pressed="false">The cap cuts a tie</button>
+    <button class="chip" data-i="3" aria-pressed="false">A batch that halts</button>
+    <button class="chip" data-i="4" aria-pressed="false">Append against swap</button>
+  </div>
+  <div class="readout" id="closeOut" aria-live="polite">Click an item above.</div>
+
+  <div class="callout tip"><strong class="t">Block, warn, info</strong>
+    A <strong>block</strong> check stops the batch (too many quarantined rows, a multiplied join, a missing source). A <strong>warn</strong> check lets it through but is shown in the report (shipment coverage below 80%, too many stale scans). An <strong>info</strong> check is only a number worth seeing (12 orphan notes). Which is which is declared in <code>config/quality.toml</code>, before the run.
+  </div>
+  <div class="donebar"><button class="donebtn" data-done="s6" aria-pressed="false">Mark as done</button></div>
+</section>
+
+<!-- ================= 7 TRUST ================= -->
+<section class="card" id="s7">
+  <h2><span class="num">7.</span> Rerun it, bound the model, gate the result</h2>
+  <p>A run you cannot repeat is a run you cannot trust. And an AI suggestion is only worth publishing if a held-out check says it is good enough. Three rules:</p>
+  <div class="flow" aria-label="Rules">
+    <div class="box"><b>1. Rerun to prove it</b>Same batch id, new attempt id, same hashes. The content hash ignores file names and row order</div><div class="arrow">&rarr;</div>
+    <div class="box"><b>2. Model after Spark</b>Spark stops first. The model step has a cap, a cache and a review queue, and is called only from Python</div><div class="arrow">&rarr;</div>
+    <div class="box"><b>3. Gate before publish</b>A held-out set that nothing was tuned on decides: PUBLISHED, or HELD with the reason</div>
+  </div>
+
+  <h3>Measured, simulated or assumed?</h3>
+  <p>Click an item, then click the bin for how we know it.</p>
+  <div class="sorter" id="sortRetry"></div>
+
+  <h3>Five things the class showed</h3>
+  <p>Click one to see what we saw and what the rule says.</p>
+  <div class="chips" id="stackChips">
+    <button class="chip" data-i="0" aria-pressed="false">IDEMPOTENT: yes</button>
+    <button class="chip" data-i="1" aria-pressed="false">A capped model step</button>
+    <button class="chip" data-i="2" aria-pressed="false">The cache on the second run</button>
+    <button class="chip" data-i="3" aria-pressed="false">HELD, not published</button>
+    <button class="chip" data-i="4" aria-pressed="false">What the operator sees</button>
+  </div>
+  <div class="readout" id="stackOut" aria-live="polite">Click an item above.</div>
+
+  <div class="callout warn"><strong class="t">The model here is simulated</strong>
+    <code>batch_model.py</code> is a stand-in. It makes no network call, needs no key and costs nothing. Its latency and token counts are stand-ins too, and the dollar figures use a dated, assumed price table. The counts of calls, cached answers and published rows are real. Whether a real model would do as well on the held-out set is exactly what the gate is for.
+  </div>
+  <div class="donebar"><button class="donebtn" data-done="s7" aria-pressed="false">Mark as done</button></div>
+</section>
+
+<!-- ================= 8 CHECK YOURSELF ================= -->
+<section class="card" id="s8">
+  <h2><span class="num">8.</span> Check yourself</h2>
+  <p>Five quick questions. They are not graded. They show you what to look at again. You can retry as often as you like.</p>
+  <div class="quiz" id="finalQuiz"></div>
+  <div class="score" id="finalScore" aria-live="polite"></div>
+
+  <h3>If something breaks: five signs and what they mean</h3>
+  <p>Click a sign you are seeing to see what it usually means.</p>
+  <div class="chips" id="traceChips">
+    <button class="chip" data-i="0">HALTED: quarantine share</button>
+    <button class="chip" data-i="1">required source missing</button>
+    <button class="chip" data-i="2">HELD: facts published</button>
+    <button class="chip" data-i="3">FileNotFoundError: ai_report.json</button>
+    <button class="chip" data-i="4">Fingerprints: DIFFERENT</button>
+  </div>
+  <div class="readout" id="traceOut" aria-live="polite">Click an item above.</div>
+
+  <h3>Before Class 12: your checklist</h3>
+  <ul class="tasks" id="finalChecks">
+    <li data-check="1"><span class="ck"></span>Python 3.11 or newer is installed, and the version command shows it</li>
+    <li data-check="2"><span class="ck"></span>My Class 11 project shows <code>357 passed, 1 xfailed</code>, and mypy is clean on 95 files</li>
+    <li data-check="3"><span class="ck"></span>I unzipped the Starter Files for Class 12 into my project, and pytest now shows <code>359 passed, 1 xfailed</code></li>
+    <li data-check="4"><span class="ck"></span>mypy now says <code>Success: no issues found in 100 source files</code></li>
+    <li data-check="5"><span class="ck"></span>The Spark check printed <code>5</code></li>
+    <li data-check="6"><span class="ck"></span>I can say what grain, a batch id, an attempt id and a manifest are, in my own words</li>
+    <li data-check="7"><span class="ck"></span>I can say why a join can multiply rows, and what we do about it</li>
+    <li data-check="8"><span class="ck"></span>I can say why a rerun must give the same hashes, and what the manifest being written last protects</li>
+    <li data-check="9"><span class="ck"></span>I can say which numbers in class are measured, which are simulated and which are assumed</li>
+    <li data-check="10"><span class="ck"></span>I tried the games and answered the quiz</li>
+  </ul>
+  <p class="small muted">Click an item to tick it. Your ticks are saved in this browser only.</p>
+
+  <div class="callout ok"><strong class="t">What happens next</strong>
+    In Class 12 you will declare the contract of a new batch, build the six-stage job, find the duplicate ids, the multiplying join and the tie at the cap, write the result with a staged swap and a manifest, read it back without Spark, prove a rerun gives the same hashes, run the bounded AI step with a cache, gate the result on a held-out set, and show it to an operator. We finish with a recommendation to the client. Send your instructor a note if any step above did not work.
+  </div>
+  <div class="donebar"><button class="donebtn" data-done="s8" aria-pressed="false">Mark as done</button></div>
+</section>
+
+<footer>FDE Module 2 &middot; Class 12 pre-read</footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  function $(s, r) { return (r || document).querySelector(s); }
+  function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+  function esc(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+  /* ---------- tabs ---------- */
+  $$('.tabs').forEach(function (box) {
+    var btns = $$('[role="tab"]', box), panels = $$('.tabpanel', box);
+    function show(name) {
+      btns.forEach(function (b) { b.setAttribute('aria-selected', b.dataset.tab === name ? 'true' : 'false'); });
+      panels.forEach(function (p) { p.classList.toggle('active', p.dataset.panel === name); });
+    }
+    btns.forEach(function (b) { b.addEventListener('click', function () { show(b.dataset.tab); }); });
+    box._show = show;
+  });
+  try {
+    var plat = ((navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || navigator.userAgent || '').toLowerCase();
+    $$('.tabs').forEach(function (bx) { if (bx._show) bx._show(plat.indexOf('win') > -1 ? 'win' : 'mac'); });
+  } catch (e) { /* ignore */ }
+
+  /* ---------- copy buttons ---------- */
+  $$('.codeblock').forEach(function (cb) {
+    var btn = $('.copy', cb), pre = $('pre', cb);
+    if (!btn || !pre) return;
+    btn.addEventListener('click', function () {
+      var text = pre.textContent;
+      function ok() { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy'; }, 1400); }
+      function fallback() {
+        var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); ok(); } catch (e2) { btn.textContent = 'Select and copy'; }
+        document.body.removeChild(ta);
+      }
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(ok, fallback); }
+        else { fallback(); }
+      } catch (e) { fallback(); }
+    });
+  });
+
+  /* ---------- progress (per viewer, saved in this browser only) ---------- */
+  var done = {};
+  try { done = JSON.parse(localStorage.getItem('c12preread') || '{}') || {}; } catch (e) { done = {}; }
+  function save() { try { localStorage.setItem('c12preread', JSON.stringify(done)); } catch (e) { /* ignore */ } }
+  function refresh() {
+    var ids = ['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8'], n = 0;
+    ids.forEach(function (id) {
+      var on = !!done[id]; if (on) n++;
+      $$('[data-done="' + id + '"]').forEach(function (b) { b.setAttribute('aria-pressed', on ? 'true' : 'false'); b.textContent = on ? 'Done ✓' : 'Mark as done'; });
+      var a = $('nav a[data-s="' + id + '"]'); if (a) a.classList.toggle('done', on);
+    });
+    $('#bar').style.width = Math.round(n / ids.length * 100) + '%';
+    $('#pct').textContent = 'Progress: ' + n + ' of ' + ids.length + ' sections marked done';
+  }
+  $$('[data-done]').forEach(function (b) {
+    b.addEventListener('click', function () { done[b.dataset.done] = !done[b.dataset.done]; save(); refresh(); });
+  });
+  try { refresh(); } catch (e) { /* ignore */ }
+
+  /* ---------- generic chip readout ---------- */
+  function chipReadout(chipSel, outSel, data, fixLabel) {
+    $$(chipSel).forEach(function (c) {
+      c.addEventListener('click', function () {
+        $$(chipSel).forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
+        c.setAttribute('aria-pressed', 'true');
+        var h = data[+c.dataset.i];
+        $(outSel).innerHTML = '<strong>' + h[0] + '</strong><br>' + h[1] + '<br><strong style="color:var(--ok)">' + fixLabel + '</strong> ' + h[2];
+      });
+    });
+  }
+
+  chipReadout('#hideChips .chip', '#hideOut', [["A silent duplicate", "<code>cases.csv</code> (402 rows) and the old system's history file (2,000 rows) both contain <code>C-100010</code>, <code>C-100020</code> and <code>C-100030</code>. Nothing fails when they are put together: the curated table would simply hold each of those cases twice. The pipeline quarantines the history row with the reason <em>case_id C-100010 is also in cases.csv; cases.csv wins</em>, so the curated table keeps one row for each of its distinct ids.", "Say the grain (one row per <code>case_id</code>, across every source) and test it: the quality report checks that the row count equals the distinct id count."], ["A join that multiplies", "Left-joining the 309 accepted notes straight onto 390 cases gave <strong>428 rows</strong>, because some cases have 2 or 3 notes (x1.097). A question such as &lsquo;how many cases have a note&rsquo; then counted 297 rows, when the true answer is 259 cases. Joining notes <em>aggregated to one row per case</em> gave exactly 390 rows (x1.000).", "Aggregate to the grain before you join, and keep a block check that rows after the joins divided by rows before is at most 1.0."], ["A tie at the cap", "116 cleared candidates, a cap of 40, and 7 cases share the same days overdue (13) right where the cap cuts. Ordering by days overdue alone gave different 40 cases on 1, 3 and 7 partitions. Ordering by days overdue, <em>then</em> case id gave the same 40 every time.", "Every ordering that feeds a cap needs a tie-break column that is unique. Then the same input always picks the same rows."], ["A half-written run", "Writing in append mode put 354 shipment rows on disk after attempt 1, and 708 after attempt 2. The pipeline writes into a staging folder, writes <code>manifest.json</code> last, and only then swaps the folder into <code>current/</code>. After any number of attempts there are 354 rows.", "Never let a reader see a half-finished run. A folder without a manifest is unfinished and is not read."]], 'What to do:');
+
+  /* ---------- section 4: folder explorer ---------- */
+  var DIRS = {"root": ["The whole project", "The Class 11 layout stays. Class 12 adds a job with its config and checks, an enrich step, a publish gate, a one-command runner, two test files and a runbook. Click a folder to see what changes."], "src": ["src/meridian_workbench/", "In your starter pack: <code>batch_model.py</code> (the <strong>simulated</strong> model), <code>make_batch.py</code> (generates the new batch from a fixed pattern) and <code>run_files.py</code> (reads a run folder back, without Spark). Written in class: <code>enrich.py</code> (the capped, cached AI step with a review queue), <code>publish.py</code> (the held-out gate) and <code>pipeline_day.py</code> (one command, files to result). Changed: <code>legacy.py</code> gains one status code (LOST) and <code>operator_view.py</code> gains the plain functions behind the operator page."], "spark": ["spark/", "In your starter pack: <code>outputs.py</code> and the first part of <code>job.py</code>. Written in class: <code>job_config.py</code> (the declared contract, ids and thresholds), <code>joins.py</code> (aggregate notes, then left joins with flags), <code>quality.py</code> (block, warn and info checks, and the report) and <code>rerun_check.py</code> (runs one batch twice and compares). <code>job.py</code> is finished in class: <code>CasePipelineJob</code> with its six stages."], "tests": ["tests/", "Two new files, written in class: <code>test_pipeline_job.py</code> (29 checks: contract, stages, halting, idempotence) and <code>test_enrich_publish.py</code> (21 checks: the cap, the cache, the review queue and the gate). <code>test_spark_boundary.py</code> grows from 12 to 21 checks, so there are 59 new checks in all. At the end there are 418 checks, and one that is expected to fail."], "data": ["config/, fixtures/ and golden/", "<code>config/pipeline.toml</code> and <code>config/quality.toml</code> hold the thresholds, written before any run. <code>fixtures/batch_b12/</code> is the new batch (402 cases, 311 notes, 362 shipments). <code>golden/heldout_set.json</code> is the held-out set of 16 notes that no prompt, rule or threshold was tuned on. All of it is in your starter pack, and none of it is real customer data."], "docs": ["docs/ and app/", "New: <code>docs/pipeline_day.md</code>, a short runbook with the operating steps, the fallback and the rollback. <code>terminology.md</code> gains new rows. The Streamlit app in <code>app/</code> gets a &lsquo;Pipeline run&rsquo; page, which uses the plain functions in <code>operator_view.py</code>."], "files": ["pyproject.toml, README.md &hellip;", "<code>pyproject.toml</code> moves from version 0.10.0 to 0.11.0. <code>README.md</code> reports the new totals. <code>requirements.txt</code> is the same as in Class 11: no new package, and no new Java step."]};
+  function showDir(k) {
+    var d = DIRS[k];
+    $('#treeTitle').textContent = d[0];
+    $('#treeText').innerHTML = '<p style="margin:0">' + d[1] + '</p>';
+  }
+  $$('#treeBox button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      $$('#treeBox button').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
+      b.setAttribute('aria-pressed', 'true');
+      showDir(b.dataset.d);
+    });
+  });
+  showDir('root');
+
+  /* ---------- sorter ---------- */
+  function sorter(el, bins, items, doneMsg) {
+    var sel = null, left = items.length, wrong = 0;
+    var pool = document.createElement('div'); pool.className = 'pool';
+    var hint = document.createElement('p'); hint.className = 'hint';
+    var grid = document.createElement('div'); grid.className = 'bins';
+    var chips = [];
+    items.forEach(function (it) {
+      var c = document.createElement('button'); c.className = 'chip'; c.textContent = it.t; c.setAttribute('aria-pressed', 'false');
+      c.addEventListener('click', function () {
+        chips.forEach(function (x) { x.classList.remove('sel'); x.setAttribute('aria-pressed', 'false'); });
+        sel = it; c.classList.add('sel'); c.setAttribute('aria-pressed', 'true');
+        hint.className = 'hint'; hint.textContent = 'Now click the bin for this item.';
+      });
+      it.chip = c; chips.push(c); pool.appendChild(c);
+    });
+    bins.forEach(function (b) {
+      var d = document.createElement('button'); d.className = 'bin';
+      d.innerHTML = '<b>' + esc(b.label) + '</b><span class="why">' + esc(b.sub || '') + '</span><span class="placed"></span>';
+      d.addEventListener('click', function () {
+        if (!sel) { hint.className = 'hint'; hint.textContent = 'Click an item first, then a bin.'; return; }
+        var it = sel;
+        if (it.bin === b.k) {
+          var s = document.createElement('span'); s.textContent = it.t; $('.placed', d).appendChild(s);
+          pool.removeChild(it.chip); sel = null; left--;
+          hint.className = 'hint good'; hint.textContent = 'Correct. ' + it.why;
+          if (!left) {
+            var e = document.createElement('span'); e.className = 'empty'; e.textContent = 'All sorted.'; pool.appendChild(e);
+            hint.textContent = (wrong === 0 ? 'Perfect, with no mistakes. ' : 'All sorted, with ' + wrong + ' wrong ' + (wrong === 1 ? 'try' : 'tries') + '. ') + (doneMsg || '');
+          }
+        } else {
+          wrong++; d.classList.add('flash'); setTimeout(function () { d.classList.remove('flash'); }, 500);
+          hint.className = 'hint bad'; hint.textContent = 'Not quite. ' + (it.hint || 'Think about what went wrong.');
+        }
+      });
+      grid.appendChild(d);
+    });
+    el.appendChild(pool); el.appendChild(hint); el.appendChild(grid);
+  }
+  sorter($('#sortKinds'), [{"k": "dec", "label": "Declared", "sub": "written before the run"}, {"k": "obs", "label": "Observed", "sub": "counted from the data"}, {"k": "der", "label": "Derived", "sub": "computed from inputs"}], [{"t": "At most 5% of a source may be quarantined", "bin": "dec", "why": "A threshold in config/pipeline.toml, written before anyone saw a result.", "hint": "Who set it, and when?"}, {"t": "12 of 402 rows in cases.csv were quarantined", "bin": "obs", "why": "The job counted it from the data. The check compares it with the declared limit.", "hint": "Did we count it?"}, {"t": "Batch id B-c8f5e7c7c884", "bin": "der", "why": "A hash of the three input files, the history file and the date. Same inputs, same id.", "hint": "Is it computed from the files?"}, {"t": "Join amplification of at most x1.0", "bin": "dec", "why": "A limit written before the run: rows out divided by rows in must not exceed it.", "hint": "A limit, not a count"}, {"t": "2,364 rows, 2,364 distinct case_id", "bin": "obs", "why": "Counted from the curated table. It shows that the grain holds.", "hint": "A count of the data"}, {"t": "Rules version R-1335fcfd", "bin": "der", "why": "A fingerprint of the rules and limits. It changes when a rule changes.", "hint": "Is it computed from the rules?"}, {"t": "Attempt id A-001", "bin": "der", "why": "Counted from attempts.jsonl, so a crashed attempt still counts.", "hint": "Counted from a file the run keeps"}], 'Declared before, observed during, derived from the inputs.');
+
+  /* ---------- section 6 ---------- */
+  sorter($('#sortWrap'), [{"k": "rd", "label": "Read", "sub": "schemas, row numbers"}, {"k": "va", "label": "Validate", "sub": "accept or quarantine"}, {"k": "jn", "label": "Join", "sub": "combine the sources"}, {"k": "wr", "label": "Write", "sub": "output and manifest"}], [{"t": "Check that required files exist before Spark reads anything", "bin": "rd", "why": "A missing required source stops the job before the read.", "hint": "Before any row exists"}, {"t": "Quarantine a history row whose case_id is also in cases.csv", "bin": "va", "why": "The duplicate is found when rows are accepted or refused, with a reason.", "hint": "Accept or refuse?"}, {"t": "Count accepted plus quarantined and compare with the input", "bin": "va", "why": "Reconciliation: every input row is accounted for.", "hint": "Do the rows add up?"}, {"t": "Collapse notes to one row per case_id before the join", "bin": "jn", "why": "Aggregating first keeps the join from multiplying rows.", "hint": "Where do two tables meet?"}, {"t": "Keep a case that has no note and no shipment, with flags", "bin": "jn", "why": "A left join keeps the case, and the flags say what is missing.", "hint": "What kind of join keeps every case?"}, {"t": "Write into a staging folder, then swap it into current/", "bin": "wr", "why": "A reader never sees a half-written run.", "hint": "Where does the output land?"}, {"t": "Write manifest.json after every table is written", "bin": "wr", "why": "The manifest comes last, so a folder without one is unfinished.", "hint": "What proves it finished?"}, {"t": "Read cases.csv with a written all-string schema", "bin": "rd", "why": "The schema is written once, as in Class 11, so the type never depends on the data.", "hint": "Schema first"}], 'Each stage has one job, and each one reports its rows.');
+  chipReadout('#closeChips .chip', '#closeOut', [["Three ids in both files", "<code>C-100010</code>, <code>C-100020</code> and <code>C-100030</code> are in <code>cases.csv</code> (rows 53, 153 and 254) and in <code>cases_2024.parquet</code> (rows 11, 21 and 31). Without a rule (the Class 11 slice on this batch), the curated table had 2,361 rows for 2,358 distinct ids. With the rule that <code>cases.csv</code> wins, the three history rows are quarantined with a reason, and the pipeline's table has 2,364 rows for 2,364 distinct ids.", "State which source wins, put it in the contract, and add a block check on the grain."], ["428 rows for 390 cases", "A raw left join of notes onto cases: 428 rows out for 390 in (x1.097). An aggregated left join: 390 for 390 (x1.000). With the raw join, counting cases that have a note gave 297, and the true number is 259.", "Aggregate to one row per case first. Keep the amplification check as a block, so a future change cannot slip through."], ["The cap cuts a tie", "With a cap of 40 over 116 candidates, 7 cases share <code>days_overdue</code> = 13 where the cap cuts. Without a tie-break, the picks on 3 and on 7 partitions differed from the picks on 1 partition (how many cases swap varies from run to run). With <code>case_id</code> as the second sort key, the same 40 were picked every time and no case swapped.", "Always order by the business key and then by a unique id before a limit."], ["A batch that halts", "The dirty fixtures (cases.csv 64.7% quarantined, notes.json 28.6%, shipments.csv 60.0%) printed <code>HALTED</code> and exited with code 2. The evidence, with the quarantine table and the quality report, is in a <code>halted/</code> folder. <strong>No model call was made</strong>, and the last good run was left alone.", "A halt is the pipeline working. Fix the source or ask its owner. Do not raise the threshold to get a pass."], ["Append against swap", "In append mode, one attempt left 354 rows on disk and the second left 708. The staged swap left 354 after any number of attempts, and the content hash stayed the same on every rerun.", "Replace the whole run, never add to it. A rerun must be safe."]], 'What to do:');
+
+  /* ---------- section 7 ---------- */
+  sorter($('#sortRetry'), [{"k": "meas", "label": "Measured", "sub": "counted by running here"}, {"k": "sim", "label": "Simulated", "sub": "a stand-in, not real"}, {"k": "asr", "label": "Assumed", "sub": "a price or a guess"}], [{"t": "2,364 curated cases from the 402 + 2,000 input rows", "bin": "meas", "why": "The job counted every input row, and accepted plus quarantined equals the input for each source.", "hint": "Counted by the job"}, {"t": "97 of 116 suggestions came back OK", "bin": "sim", "why": "The count is real, but the model is the simulated stand-in. It says nothing about a real model.", "hint": "Is the model real?"}, {"t": "The price of the model step, $0.0441", "bin": "asr", "why": "Simulated tokens at the dated price table (as of 2026-11-04). It sizes a decision and is not an invoice.", "hint": "What is it built on?"}, {"t": "Same content hash on the first and second run", "bin": "meas", "why": "The rerun check compared the hashes of all five tables by running them.", "hint": "Compared by running?"}, {"t": "Latency p50 89 ms, p95 101 ms", "bin": "sim", "why": "Latency is a stand-in constant of the simulated model, not a network timing.", "hint": "Was there a network?"}, {"t": "Held-out structural validity 1.0 against a limit of 0.95", "bin": "meas", "why": "The gate computed it on the 16 held-out notes. The limit is declared, and the model behind the number is simulated.", "hint": "Computed on the held-out set"}, {"t": "Stale means a shipment scan older than 14 days", "bin": "asr", "why": "A business rule chosen by us and written in the config. It is not a fact about the data.", "hint": "Who chose 14?"}], 'Say which kind each number is, every time.');
+  chipReadout('#stackChips .chip', '#stackOut', [["IDEMPOTENT: yes", "The batch was run twice (attempts A-002 and A-003). The batch id, the rules version, all five row counts, the case ids, the quarantined rows, the candidate order and all five content hashes were the same. The last line printed <code>IDEMPOTENT: yes</code>.", "A rerun creates a new attempt id and nothing else. If hashes change with the same batch id, compare <code>rules_version</code>: a new one explains it."], ["A capped model step", "116 candidates, a cap of 200: 117 calls were made (one extra for a retry after a timeout), 97 answers were OK, 15 ABSTAINED, 3 had an invalid reply and 1 was unavailable. 19 of 116 (16%) went to a human review queue. This is the <strong>simulated</strong> model. With a cap of 40 the step made 40 calls and sent 84 (72%) to review.", "A cap, a cache and a review queue are what make the step safe to run. Spark has already stopped before it starts."], ["The cache on the second run", "The second enrich run made 5 calls and reused 112 answers from the cache, for $0.0011 against $0.0441 on the first. The 5 calls were the ones that had no good answer yet.", "Cache answers by what produced them. A rerun should not pay twice for the same note."], ["HELD, not published", "With a simulated model that has changed (<code>--drift</code>), the held-out structural validity dropped to 0.81 against a limit of 0.95. The gate printed <code>HELD: facts published, suggestions withheld</code>. The curated facts still went out.", "The gate splits facts from suggestions. A bad suggestion step never blocks the facts."], ["What the operator sees", "One screen: batch id, attempt id and date, outcome, counts of curated cases, quarantined rows and candidates, the 14 quality checks, the suggestion statuses, calls and cost, how many need a person, and the publish line. The Streamlit &lsquo;Pipeline run&rsquo; page shows the same thing from plain functions.", "If it cannot be said on one screen, the operator cannot act on it."]], 'The rule:');
+  chipReadout('#traceChips .chip', '#traceOut', [["HALTED: quarantine share: cases.csv: 64.7% (11 of 17)", "A block check failed: more than 5% of a source was quarantined. The job stopped, wrote evidence into a <code>halted/</code> folder and made no model call. The exit code is 2.", "Open the quarantine table in <code>halted/</code>, find the common reason, and fix the source or ask its owner. Do not raise the limit to get a pass."], ["HALTED: required source missing: notes.json", "A required file is not in the data folder. The job stops before Spark reads anything.", "Check the folder and the file name. Only the history file is optional."], ["HELD: facts published, suggestions withheld", "The held-out gate failed (here, the structural validity of the suggestions). The curated facts are published, and the suggestions are not.", "Read the line that starts with FAIL, and the reason under it. Fix the model step or prompt, never the limit."], ["FileNotFoundError: ...current/ai/ai_report.json", "The <code>ai/</code> folder is not there. The rerun check and the Spark job replace <code>current/</code> as a whole, and the AI step has not run since.", "Run <code>python -m meridian_workbench.pipeline_day</code> first, and use <code>publish</code> straight after it."], ["Fingerprints: DIFFERENT from before", "A trusted output changed when it should not have.", "Stop. Find which file changed and why, before going any further. Class 12 adds a pipeline next to the Python code and never changes the reports."]], 'What to do:');
+
+  /* ---------- quiz ---------- */
+  function quiz(el, items, scoreEl) {
+    var answered = 0, right = 0;
+    items.forEach(function (it, qi) {
+      var q = document.createElement('div'); q.className = 'q';
+      var p = document.createElement('p'); p.className = 'qt'; p.textContent = (qi + 1) + '. ' + it.q; q.appendChild(p);
+      var fb = document.createElement('div'); fb.className = 'fb';
+      var btns = [];
+      it.o.forEach(function (txt, oi) {
+        var b = document.createElement('button'); b.className = 'opt'; b.textContent = txt; btns.push(b);
+        b.addEventListener('click', function () {
+          if (btns.some(function (x) { return x.disabled; })) return;
+          btns.forEach(function (x) { x.disabled = true; });
+          answered++;
+          if (oi === it.a) { b.classList.add('right'); right++; fb.textContent = 'Correct. ' + it.e; fb.style.color = 'var(--ok)'; }
+          else { b.classList.add('wrong'); btns[it.a].classList.add('right'); fb.textContent = 'Not quite. ' + it.e; fb.style.color = 'var(--bad)'; }
+          if (scoreEl && answered === items.length) {
+            scoreEl.textContent = 'You got ' + right + ' of ' + items.length + '. ' + (right === items.length ? 'Great work.' : 'Re-read the sections for any you missed, then reload the page to try again.');
+          }
+        });
+        q.appendChild(b);
+      });
+      q.appendChild(fb); el.appendChild(q);
+    });
+  }
+  quiz($('#finalQuiz'), [{"q": "A raw left join of 309 notes onto 390 cases gave 428 rows. What is the right fix?", "o": ["Drop duplicates after the join, since the extra rows are only copies of cases", "Aggregate the notes to one row per case first, then left join, and keep the check", "Switch to an inner join, because it always returns exactly one row per case", "Raise the amplification limit to 1.1, since the pipeline now expects the growth"], "a": 1, "e": "The join multiplied rows because a case can have several notes. Aggregating to the grain first gives 390 for 390, and the block check keeps it that way. An inner join would also drop cases with no note."}, {"q": "Why is manifest.json written last, after every table?", "o": ["It is small, so writing it first would make no difference to a reader", "Spark insists on writing a manifest before it writes any Parquet table", "The folder is then swapped into current/ with the hashes of all five tables", "A run without a manifest is unfinished, so a reader never uses a half run"], "a": 3, "e": "If the job stops half way, there is no manifest, and a folder without one is never read. The swap into current/ is what makes a finished run appear in one step."}, {"q": "A rerun of the same batch gives a new attempt id and the same hashes. What does that show?", "o": ["The run is idempotent: the same inputs and rules give the same content", "The cache was used, so no table needed to be written again on the second run", "The model returned the same answers, so the suggestions were the same", "The batch id is the same, so the files must not have been read again"], "a": 0, "e": "Idempotent means that running it again changes nothing that matters. The hashes cover the data in the tables, not the file names or row order, and a changed rules version would be the one honest reason for different hashes."}, {"q": "The cap cuts through 7 cases with the same days overdue. How do you make the picks repeatable?", "o": ["Sort by days overdue only, and run on a single partition every time", "Shuffle the 7 cases with a fixed seed, and take the first few of them", "Add a unique column, such as case_id, as the second sort key", "Lower the cap by 7, so that the tied cases are never inside it"], "a": 2, "e": "A tie-break that is unique makes the order total, so every partition count gives the same 40. A single partition hides the problem and does not remove it."}, {"q": "The simulated model drifted, and held-out structural validity fell to 0.81 against 0.95. What happens?", "o": ["The run halts, the facts are withheld too, and exit code 2 is returned", "The limit is lowered for the day, so the suggestions can still go out", "The run is repeated until a model answer passes the check and is published", "HELD: facts published, suggestions withheld, and the failing line is printed"], "a": 3, "e": "The gate separates facts from suggestions. A failed suggestion check holds the suggestions and says why, and the facts that already passed their own checks are still published. The limit is never changed to get a pass."}], $('#finalScore'));
+
+  /* checklist: tick, and remember in this browser */
+  var checkDone = {};
+  try { checkDone = JSON.parse(localStorage.getItem('c12preread-checks') || '{}') || {}; } catch (e) { checkDone = {}; }
+  $$('#finalChecks li').forEach(function (li) {
+    var ck = $('.ck', li);
+    var tx = document.createElement('span'); tx.className = 'tx';
+    while (ck.nextSibling) tx.appendChild(ck.nextSibling);
+    li.appendChild(tx);
+    li.style.cursor = 'pointer';
+    function paint(on) { li.classList.toggle('done', on); ck.textContent = on ? '✓' : ''; }
+    paint(!!checkDone[li.dataset.check]);
+    li.addEventListener('click', function () {
+      checkDone[li.dataset.check] = !checkDone[li.dataset.check];
+      paint(!!checkDone[li.dataset.check]);
+      try { localStorage.setItem('c12preread-checks', JSON.stringify(checkDone)); } catch (e) { /* ignore */ }
+    });
+  });
+
+  /* nav highlight while scrolling */
+  try {
+    var secs = $$('section.card'), links = $$('nav a');
+    window.addEventListener('scroll', function () {
+      var cur = secs[0].id;
+      secs.forEach(function (s) { if (s.getBoundingClientRect().top < 160) cur = s.id; });
+      links.forEach(function (a) { a.style.fontWeight = a.dataset.s === cur ? '700' : '400'; });
+    }, { passive: true });
+  } catch (e) { /* ignore */ }
+})();
+</script>
+</body>
+</html>
